@@ -17,7 +17,7 @@
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" laghos_raja_kernel
+extern "C" kernel__
 void rSetSubVector0(const int N,
                     const int* indices,
                     const double* in,
@@ -41,7 +41,7 @@ void rSetSubVector(const int N,
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" laghos_raja_kernel
+extern "C" kernel__
 void rMapSubVector0(const int N,
                     const int* indices,
                     const double* in,
@@ -74,7 +74,7 @@ void rMapSubVector(const int N,
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" laghos_raja_kernel
+extern "C" kernel__
 void rExtractSubVector0(const int N,
                         const int* indices,
                         const double* in,
@@ -89,7 +89,7 @@ void rExtractSubVector(const int N,
                        double* __restrict out) {
   push(Lime);
 #ifndef __LAMBDA__
-  cuKerGB(rExtractSubVector,1,256,N,indices,in,out);
+  cuKer(rExtractSubVector,N,indices,in,out);
 #else
   forall(i,N,out[i] = in[indices[i]];);
 #endif

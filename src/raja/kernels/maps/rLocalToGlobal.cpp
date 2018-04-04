@@ -16,10 +16,10 @@
 #include "../raja.hpp"
 
 // *****************************************************************************
-extern "C" laghos_raja_kernel
-void rLocalToGlobal0(const int NUM_VDIM,
+extern "C" kernel__
+void rLocalToGlobal0(const int globalEntries,
+                     const int NUM_VDIM,
                      const bool VDIM_ORDERING,
-                     const int globalEntries,
                      const int localEntries,
                      const int* offsets,
                      const int* indices,
@@ -48,6 +48,8 @@ void rLocalToGlobal0(const int NUM_VDIM,
            );
 #endif
 }
+
+// *****************************************************************************
 void rLocalToGlobal(const int NUM_VDIM,
                     const bool VDIM_ORDERING,
                     const int globalEntries,
@@ -57,7 +59,7 @@ void rLocalToGlobal(const int NUM_VDIM,
                     const double* localX,
                     double* __restrict globalX) {
   push(Lime);
-  cuKerGB(rLocalToGlobal,1,256,NUM_VDIM,VDIM_ORDERING,
-        globalEntries,localEntries,offsets,indices,localX,globalX);
+  cuKer(rLocalToGlobal,globalEntries,NUM_VDIM,VDIM_ORDERING,
+        localEntries,offsets,indices,localX,globalX);
   pop();
 }

@@ -9,10 +9,12 @@ set(LAGHOS_RAJA_SOURCES
   fem/rprolong.cpp
   fem/rrestrict.cpp
   general/rcommd.cpp
-  general/rcommunicator.cpp
+  general/rmemcpy.cpp
   general/rtable.cpp
+  linalg/rsolvers.cpp
   linalg/rvector.cpp
   tests/dot.cpp
+  tests/lambda.cpp
   tests/mult.cpp 
 )
 set_source_files_properties(${LAGHOS_RAJA_SOURCES} PROPERTIES LANGUAGE CUDA)
