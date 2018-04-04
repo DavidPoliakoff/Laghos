@@ -16,7 +16,7 @@
 #include "../raja.hpp"
 
 // *****************************************************************************
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rMassAssemble2D0(const int NUM_QUAD_2D,
                       const int numElements,
                       const double COEFF,
@@ -55,7 +55,7 @@ static void rMassAssemble2D(const int NUM_QUAD_2D,
 }
 
 // *****************************************************************************
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rMassAssemble3D0(const int NUM_QUAD_3D,
                       const int numElements,
                       const double COEFF,

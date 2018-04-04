@@ -1,6 +1,7 @@
-blt_add_library(
-  NAME laghos_raja_kernels
-  SOURCES blas/vector_axpy.cpp
+include_directories(${CMAKE_SOURCE_DIR}/tpl/rajitify/include)
+# DEBUG delete
+set(LAGHOS_RAJA_KERNEL_SOURCES
+  blas/vector_axpy.cpp
   blas/vector_clear_dofs.cpp
   blas/vector_dot.cpp
   blas/vector_get_subvector.cpp
@@ -30,5 +31,12 @@ blt_add_library(
   share/rMassAssembleS.cpp
   share/rMassMultAddS.cpp
   share/rQDataUpdateS.cpp
-  DEPENDS_ON ${LAGHOS_DEPENDS}
+)
+set_source_files_properties(${LAGHOS_RAJA_KERNEL_SOURCES} PROPERTIES LANGUAGE CUDA)
+
+include_directories(/usr/workspace/wsrzd/dzpolia/src/cling/inst/include)
+blt_add_library(
+  NAME laghos_raja_kernels
+  SOURCES ${LAGHOS_RAJA_KERNEL_SOURCES}
+  DEPENDS_ON ${LAGHOS_DEPENDS} ${CLING_LIBS}
   )

@@ -17,7 +17,7 @@
 rm -rf build_blueos_nvcc9.0_gcc4.9.3 >/dev/null
 mkdir build_blueos_nvcc9.0_gcc4.9.3 && cd build_blueos_nvcc9.0_gcc4.9.3
 
-module load cmake/3.7.2
+module load cmake/3.9.2
 
 LAGHOS_DIR=$(git rev-parse --show-toplevel)
 
@@ -25,12 +25,16 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -C ${LAGHOS_DIR}/host-configs/blueos/nvcc_gcc_4_9_3.cmake \
   -DMFEM_USE_MPI=On \
+  -DENABLE_UMPIRE=On \
   -DENABLE_OPENMP=On \
+  -DWITH_GOTCHA=Off \
   -DENABLE_CALIPER=On \
+  -DWITH_SAMPLER=Off \
   -DWITH_NVPROF=On \
   -DWITH_CALLPATH=Off \
   -DENABLE_CUDA=On \
   -DENABLE_CUB=On \
+  -DCMAKE_CUDA_COMPILER=/usr/tce/packages/cuda/cuda-9.0.176/bin/nvcc \
   -DCUDA_TOOLKIT_ROOT_DIR=/usr/tce/packages/cuda/cuda-9.0.176 \
   -DENABLE_ALL_WARNINGS=Off \
   -DCMAKE_INSTALL_PREFIX=../install_blueos_nvcc9.0_gcc4.9.3 \

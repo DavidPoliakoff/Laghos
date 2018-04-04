@@ -15,7 +15,7 @@
 // testbed platforms, in support of the nation's exascale computing imperative.
 #ifndef LAGHOS_RAJA_KERNELS_RAJA
 #define LAGHOS_RAJA_KERNELS_RAJA
-
+#ifndef JIT_GUARD
 // *****************************************************************************
 #undef NDEBUG
 #include <math.h>
@@ -48,7 +48,9 @@
 #include "../config/rnvvp.hpp"
 
 // *****************************************************************************
+#endif
 #include "include/forall.hpp"
+
 #include "include/offsets.hpp"
 #include "include/kernels.hpp"
 

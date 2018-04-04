@@ -16,7 +16,7 @@
 #include "../raja.hpp"
 
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void vector_op_eq0(const int N,
                    const double c0,
                    double* __restrict v0){

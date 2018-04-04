@@ -18,7 +18,7 @@
 // *****************************************************************************
 #ifdef __TEMPLATES__
 template<const int NUM_DOFS_1D,
-         const int NUM_QUAD_1D> kernel
+         const int NUM_QUAD_1D> laghos_raja_kernel
 #endif
 void rMassMultAdd2S(
 #ifndef __TEMPLATES__
@@ -46,12 +46,12 @@ void rMassMultAdd2S(
 #endif
   {    
     // Store dof <--> quad mappings
-    share double s_dofToQuad[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
-    share double s_quadToDof[NUM_QUAD_DOFS_1D];//@dim(NUM_DOFS_1D, NUM_QUAD_1D);
+    laghos_raja_share double s_dofToQuad[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
+    laghos_raja_share double s_quadToDof[NUM_QUAD_DOFS_1D];//@dim(NUM_DOFS_1D, NUM_QUAD_1D);
 
     // Store xy planes in shared memory
-    share double s_xy[NUM_QUAD_DOFS_1D];//@dim(NUM_DOFS_1D, NUM_QUAD_1D);
-    share double s_xy2[NUM_QUAD_2D];//@dim(NUM_QUAD_1D, NUM_QUAD_1D);
+    laghos_raja_share double s_xy[NUM_QUAD_DOFS_1D];//@dim(NUM_DOFS_1D, NUM_QUAD_1D);
+    laghos_raja_share double s_xy2[NUM_QUAD_2D];//@dim(NUM_QUAD_1D, NUM_QUAD_1D);
 
     double r_x[NUM_MAX_1D];
 
@@ -64,7 +64,7 @@ void rMassMultAdd2S(
 
     for (int e = eOff; e < (eOff + M2_ELEMENT_BATCH); ++e) {
       if (e < numElements) {
-        sync;
+        laghos_raja_sync
         for (int dx = 0; dx < NUM_MAX_1D; ++dx) {
           if (dx < NUM_DOFS_1D) {
             for (int qy = 0; qy < NUM_QUAD_1D; ++qy) {
@@ -82,7 +82,7 @@ void rMassMultAdd2S(
             }
           }
         }
-        sync;
+        laghos_raja_sync
         for (int qy = 0; qy < NUM_MAX_1D; ++qy) {
           if (qy < NUM_QUAD_1D) {
             for (int qx = 0; qx < NUM_QUAD_1D; ++qx) {
@@ -94,7 +94,7 @@ void rMassMultAdd2S(
             }
           }
         }
-        sync;
+        laghos_raja_sync
         
         for (int qx = 0; qx < NUM_MAX_1D; ++qx) {
           if (qx < NUM_QUAD_1D) {
@@ -113,7 +113,7 @@ void rMassMultAdd2S(
             }
           }
         }
-        sync;
+        laghos_raja_sync
         for (int dx = 0; dx < NUM_MAX_1D; ++dx) {
           if (dx < NUM_DOFS_1D) {
             for (int dy = 0; dy < NUM_DOFS_1D; ++dy) {

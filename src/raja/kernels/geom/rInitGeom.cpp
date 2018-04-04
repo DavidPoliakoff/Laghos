@@ -51,7 +51,7 @@ void rNodeCopyByVDim(const int elements,
 // *****************************************************************************
 #ifdef __TEMPLATES__
 template<const int NUM_DOFS,
-         const int NUM_QUAD> kernel
+         const int NUM_QUAD> laghos_raja_kernel
 #endif
 void rIniGeom1D(
 #ifndef __TEMPLATES__
@@ -96,7 +96,7 @@ void rIniGeom1D(
 // *****************************************************************************
 #ifdef __TEMPLATES__
 template<const int NUM_DOFS,
-         const int NUM_QUAD> kernel
+         const int NUM_QUAD> laghos_raja_kernel
 #endif
 void rIniGeom2D(
 #ifndef __TEMPLATES__
@@ -155,7 +155,7 @@ void rIniGeom2D(
 // *****************************************************************************
 #ifdef __TEMPLATES__
 template<const int NUM_DOFS,
-         const int NUM_QUAD> kernel
+         const int NUM_QUAD> laghos_raja_kernel
 #endif
 void rIniGeom3D(
 #ifndef __TEMPLATES__

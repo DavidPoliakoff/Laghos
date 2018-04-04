@@ -16,7 +16,7 @@
 #include "../raja.hpp"
 
 // *****************************************************************************
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rLocalToGlobal0(const int NUM_VDIM,
                      const bool VDIM_ORDERING,
                      const int globalEntries,

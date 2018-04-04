@@ -25,9 +25,9 @@
 // *****************************************************************************
 #ifdef __RAJA__ // *************************************************************
 //#warning RAJA, WITH NVCC
-#define kernel
-#define sync
-#define share // variable cannot be declared with "shared" inside a host function
+#define laghos_raja_kernel
+#define laghos_raja_sync
+#define laghos_raja_share // variable cannot be declared with "shared" inside a host function
 const int CUDA_BLOCK_SIZE = 256;
 #define cu_device __device__
 #define cu_exec RAJA::cuda_exec<CUDA_BLOCK_SIZE>
@@ -54,9 +54,9 @@ const int CUDA_BLOCK_SIZE = 256;
 #else // __KERNELS__ on GPU, CUDA Kernel launches  *****************************
 #ifdef __NVCC__
 #ifndef __LAMBDA__
-#define kernel __global__
-#define sync __syncthreads();
-#define share __shared__
+#define laghos_raja_kernel __global__
+#define laghos_raja_sync __syncthreads();
+#define laghos_raja_share __shared__
 //printf("\033[32;1m[cuKer] \033[32;1m%s:\033[0;32m \033[33;1m%d\033[0;32m,\033[35;1m%d\033[m\n",#name,((end+128-1)/128),128);
 //printf("\033[32;1m[cuKer] \033[32;1m%s:\033[0;32m \033[33;1m%d\033[0;32m,\033[35;1m%d\033[m\n",#name,grid,block);
 //printf("\033[32;1m[call] \033[32;1m%s:\033[0;32m \033[33;1m%d\033[0;32m,\033[35;1m%d\033[m\n",#name,grid,blck);
@@ -67,7 +67,7 @@ const int CUDA_BLOCK_SIZE = 256;
                           unsigned int  gridDimX, unsigned int  gridDimY, unsigned int  gridDimZ,
                           unsigned int  blockDimX, unsigned int  blockDimY, unsigned int  blockDimZ,
                           unsigned int  sharedMemBytes, CUstream hStream,
-                          void** kernelParams, void** extra );*/
+                          void** laghos_raja_kernelParams, void** extra );*/
 #define cuLaunchKer(name,args) {                                      \
     cuLaunchKernel(name ## 0,                                         \
                    ((end+128-1)/128),1,1,                             \
@@ -86,9 +86,9 @@ const int CUDA_BLOCK_SIZE = 256;
 
 // *****************************************************************************
 #else // __KERNELS__ on GPU, LAMBDA launches  **********************************
-#define kernel
-#define sync
-#define share
+#define laghos_raja_kernel
+#define laghos_raja_sync
+#define laghos_raja_share
 template <typename FORALL_BODY>
 __global__ void gpu(const int length,
                     const int step,
@@ -119,9 +119,9 @@ void cuda_forallT(const int end,
 // *****************************************************************************
 #else // __KERNELS__ on Cpu ****************************************************
 //#warning NO RAJA, NO NVCC
-#define sync
-#define share
-#define kernel
+#define laghos_raja_sync
+#define laghos_raja_share
+#define laghos_raja_kernel
 class ReduceSum{
 public:
   double s;

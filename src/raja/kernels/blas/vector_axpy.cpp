@@ -16,7 +16,7 @@
 #include "../raja.hpp"
 
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void vector_axpy0(const int N,
                  const double alpha,
                  double* __restrict v0,

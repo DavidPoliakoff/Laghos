@@ -13,10 +13,13 @@
 #
 ###############################################################################
 
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.8)
 
-project(Laghos CXX)
-
+project(Laghos CXX CUDA)
+link_directories(/usr/tce/packages/cuda/cuda-9.0.176/lib64)
+include_directories(${EXTRA_PREFIXES}/include)
+link_directories(${EXTRA_PREFIXES}/lib)
+set(LINK_INTERFACE_MULTIPLICITY 5)
 #
 # Initialize the BLT build system
 #
@@ -24,6 +27,13 @@ project(Laghos CXX)
 if (LAGHOS_ENABLE_WARNINGS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 endif()
+
+#### TESTING - Rover
+
+#include_directories(/g/g0/dzpolia/src/rajitify/include)
+#link_directories(/g/g0/dzpolia/src/rajitify/build/include/)
+
+#### END TESTING - Rover
 
 set(ENABLE_TESTS Off CACHE BOOL "")
 
@@ -51,6 +61,7 @@ set(RAJA_DATA_ALIGN 64)
 set(RAJA_COHERENCE_BLOCK_SIZE 64)
 
 add_definitions(-D__LAMBDA__=1 -D__TEMPLATES__=1 -D__RAJA__=1)
+#add_definitions(-D__RAJA__=1)
 
 add_subdirectory(tpl/RAJA)
 
@@ -78,6 +89,7 @@ if(ENABLE_UMPIRE)
     NAME umpire
     INCLUDES ${UMPIRE_INCLUDE_DIRS}
     LIBRARIES "umpire")
+  include_directories(${UMPIRE_INCLUDE_DIRS})
 endif()  
 
 get_property(RAJA_INCLUDE_DIRS DIRECTORY tpl/RAJA PROPERTY INCLUDE_DIRECTORIES)
@@ -87,7 +99,8 @@ include_directories(${CMAKE_BINARY_DIR}/tpl/RAJA/include)
 MESSAGE( STATUS "RAJA_INCLUDE_DIRS:         " ${RAJA_INCLUDE_DIRS} )
 MESSAGE( STATUS "RAJA_INCLUDE_DIRS:         " ${CMAKE_SOURCE_DIR}/tpl/RAJA/include )
 MESSAGE( STATUS "RAJA_INCLUDE_DIRS:         " ${CMAKE_BINARY_DIR}/tpl/RAJA/include )
-
+include_directories(${BLT_MPI_INCLUDES})
+set(MFEM_USE_MPI TRUE)
 add_subdirectory(MFEM) 
 include_directories(${CMAKE_SOURCE_DIR}/MFEM/)
 MESSAGE( STATUS "MFEM_INCLUDE_DIRS1:         " ${CMAKE_SOURCE_DIR}/MFEM/ )
@@ -96,6 +109,9 @@ MESSAGE( STATUS "MFEM_INCLUDE_DIRS2:         " ${CMAKE_BINARY_DIR}/MFEM/config )
 include_directories(${HYPRE_INCLUDE_DIRS})
 include_directories(${METIS_INCLUDE_DIRS})
 
+link_directories(${CMAKE_BINARY_DIR}/lib)
+add_subdirectory(tpl/rajitify)
+include_directories(${RAJITIFY_INCLUDES})
 #
 # Setup variables to pass to Perf suite
 #
@@ -118,9 +134,9 @@ if (ENABLE_OPENMP)
   list(APPEND LAGHOS_DEPENDS openmp)
 endif()
 if (ENABLE_CUDA)
-  list(APPEND LAGHOS_DEPENDS cuda)
+  #list(APPEND LAGHOS_DEPENDS cuda)
    if (ENABLE_CUB)
-     list(APPEND LAGHOS_DEPENDS cub)
+     #list(APPEND LAGHOS_DEPENDS cub)
    endif ()
 endif() 
 

@@ -20,7 +20,7 @@
 template<const int NUM_DIM,
          const int NUM_QUAD,
          const int NUM_QUAD_1D,
-         const int NUM_DOFS_1D> kernel
+         const int NUM_DOFS_1D> laghos_raja_kernel
 #endif
 void rUpdateQuadratureData2D(
 #ifndef __TEMPLATES__
@@ -166,7 +166,7 @@ void rUpdateQuadratureData2D(
       //printf("\ndt_est=%.15e",q_h);
       //printf("\ndt_est=%.15e",dtEst[ijN(q,el)]);
       if (USE_VISCOSITY) {
-        // TODO: Check how we can extract outside of kernel
+        // TODO: Check how we can extract outside of laghos_raja_kernel
         const double mu = minEig;
         double coeff = 2.0*q_rho*q_h*q_h*fabs(mu);
         if (mu < 0) {
@@ -196,7 +196,7 @@ void rUpdateQuadratureData2D(
 template<const int NUM_DIM,
          const int NUM_QUAD,
          const int NUM_QUAD_1D,
-         const int NUM_DOFS_1D> kernel
+         const int NUM_DOFS_1D> laghos_raja_kernel
 #endif
 void rUpdateQuadratureData3D(
 #ifndef __TEMPLATES__
@@ -473,7 +473,7 @@ void rUpdateQuadratureData3D(
       dtEst[ijN(q,el,NUM_QUAD)] = CFL*q_h / soundSpeed;
 
       if (USE_VISCOSITY) {
-        // TODO: Check how we can extract outside of kernel
+        // TODO: Check how we can extract outside of laghos_raja_kernel
         const double mu = minEig;
         double coeff = 2.0*q_rho*q_h*q_h*fabs(mu);
         if (mu < 0) {

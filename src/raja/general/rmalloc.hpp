@@ -21,7 +21,7 @@
 #include "umpire/Allocator.hpp"
 #include "umpire/util/Exception.hpp"
 #include <signal.h>
-
+#include <cuda.h>
 // ***************************************************************************
 extern bool uvm;
 extern bool cuda;
@@ -86,7 +86,6 @@ template<class T> struct rmalloc{
 
     if (!rconfig::Get().Cuda()) return static_cast<void*>(host_allocator.allocate(n*sizeof(T)));
 
-#ifdef __NVCC__
     void *ptr;
     push(new,Purple);
     if (!rconfig::Get().Uvm()){
@@ -97,11 +96,6 @@ template<class T> struct rmalloc{
     }
     pop();
     return ptr;
-#else
-    // We come here when the user requests a manager,
-    // but has compiled the code without NVCC
-    assert(false);
-#endif // __NVCC__
 
   }
   // ***************************************************************************

@@ -26,6 +26,8 @@ cmake \
   -C ${PERFSUITE_DIR}/host-configs/blueos/nvcc_clang_coral_2017_09_18.cmake \
   -DENABLE_OPENMP=On \
   -DENABLE_CUDA=On \
+  -DENABLE_MPI=On \
+  -DENABLE_UMPIRE=On \
   -DCUDA_TOOLKIT_ROOT_DIR=/usr/tcetmp/packages/cuda-9.0.176 \
   -DPERFSUITE_ENABLE_WARNINGS=Off \
   -DENABLE_ALL_WARNINGS=Off \

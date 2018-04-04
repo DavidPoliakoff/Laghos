@@ -1,6 +1,5 @@
-blt_add_library(
-  NAME laghos_raja
-  SOURCES config/rconfig.cpp
+set(LAGHOS_RAJA_SOURCES
+  config/rconfig.cpp
   config/rnvvp.cpp
   fem/rbilinearform.cpp
   fem/rbilininteg.cpp
@@ -15,5 +14,10 @@ blt_add_library(
   linalg/rvector.cpp
   tests/dot.cpp
   tests/mult.cpp 
-  DEPENDS_ON laghos_raja_kernels ${LAGHOS_DEPENDS}
+)
+set_source_files_properties(${LAGHOS_RAJA_SOURCES} PROPERTIES LANGUAGE CUDA)
+blt_add_library(
+  NAME laghos_raja
+  SOURCES ${LAGHOS_RAJA_SOURCES}
+  DEPENDS_ON laghos_raja_kernels ${LAGHOS_DEPENDS} ${CLING_LIBS}
   )

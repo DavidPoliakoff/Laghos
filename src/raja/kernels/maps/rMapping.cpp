@@ -17,7 +17,7 @@
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rSetSubVector0(const int N,
                     const int* indices,
                     const double* in,
@@ -41,7 +41,7 @@ void rSetSubVector(const int N,
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rMapSubVector0(const int N,
                     const int* indices,
                     const double* in,
@@ -74,7 +74,7 @@ void rMapSubVector(const int N,
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void rExtractSubVector0(const int N,
                         const int* indices,
                         const double* in,

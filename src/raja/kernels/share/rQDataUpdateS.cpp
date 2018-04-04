@@ -20,7 +20,7 @@
 template<const int NUM_DIM,
          const int NUM_QUAD,
          const int NUM_QUAD_1D,
-         const int NUM_DOFS_1D> kernel
+         const int NUM_DOFS_1D> laghos_raja_kernel
 #endif
 void rUpdateQuadratureData2DS(
 #ifndef __TEMPLATES__
@@ -58,13 +58,13 @@ void rUpdateQuadratureData2DS(
   if (el < numElements)
 #endif
   {
-    share double s_dofToQuad[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
-    share double s_dofToQuadD[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
+    laghos_raja_share double s_dofToQuad[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
+    laghos_raja_share double s_dofToQuadD[NUM_QUAD_DOFS_1D];//@dim(NUM_QUAD_1D, NUM_DOFS_1D);
 
-    share double s_xy[NUM_DIM * NUM_QUAD_DOFS_1D];//@dim(NUM_DIM, NUM_DOFS_1D, NUM_QUAD_1D);
-    share double s_xDy[NUM_DIM * NUM_QUAD_DOFS_1D];//@dim(NUM_DIM, NUM_DOFS_1D, NUM_QUAD_1D);
+    laghos_raja_share double s_xy[NUM_DIM * NUM_QUAD_DOFS_1D];//@dim(NUM_DIM, NUM_DOFS_1D, NUM_QUAD_1D);
+    laghos_raja_share double s_xDy[NUM_DIM * NUM_QUAD_DOFS_1D];//@dim(NUM_DIM, NUM_DOFS_1D, NUM_QUAD_1D);
 
-    share double s_gradv[NUM_DIM * NUM_DIM * NUM_QUAD_2D];//@dim(NUM_DIM, NUM_DIM, NUM_QUAD_2D);
+    laghos_raja_share double s_gradv[NUM_DIM * NUM_DIM * NUM_QUAD_2D];//@dim(NUM_DIM, NUM_DIM, NUM_QUAD_2D);
 
     double r_v[NUM_DIM * NUM_DOFS_1D];//@dim(NUM_DIM, NUM_DOFS_1D);
 
@@ -218,7 +218,7 @@ void rUpdateQuadratureData2DS(
         dtEst[ijN(q, el,NUM_QUAD)] = CFL * q_h / soundSpeed;
 
         if (USE_VISCOSITY) {
-          // TODO: Check how we can extract outside of kernel
+          // TODO: Check how we can extract outside of laghos_raja_kernel
           const double mu = minEig;
           double coeff = 2.0 * q_rho * q_h * q_h * fabs(mu);
           if (mu < 0) {

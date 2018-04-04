@@ -23,7 +23,7 @@ template<const int NUM_DIM,
          const int NUM_DOFS_1D,
          const int NUM_QUAD_1D,
          const int L2_DOFS_1D,
-         const int H1_DOFS_1D> kernel
+         const int H1_DOFS_1D> laghos_raja_kernel
 #endif
 void rForceMult2S(
 #ifndef __TEMPLATES__
@@ -56,12 +56,12 @@ void rForceMult2S(
   if (elBlock < numElements)
 #endif
   {
-    share double s_L2DofToQuad[NUM_QUAD_1D * L2_DOFS_1D];
-    share double s_H1QuadToDof[H1_DOFS_1D  * NUM_QUAD_1D];
-    share double s_H1QuadToDofD[H1_DOFS_1D * NUM_QUAD_1D];
-    share double s_xy[MAX_DOFS_1D * NUM_QUAD_1D];
-    share double s_xDy[H1_DOFS_1D * NUM_QUAD_1D];
-    share double s_e[NUM_QUAD_2D];
+    laghos_raja_share double s_L2DofToQuad[NUM_QUAD_1D * L2_DOFS_1D];
+    laghos_raja_share double s_H1QuadToDof[H1_DOFS_1D  * NUM_QUAD_1D];
+    laghos_raja_share double s_H1QuadToDofD[H1_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_xy[MAX_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_xDy[H1_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_e[NUM_QUAD_2D];
 
     for (int idBlock = 0; idBlock < INNER_SIZE; ++idBlock/*;inner*/) {
       for (int id = idBlock; id < (L2_DOFS_1D * NUM_QUAD_1D); id += INNER_SIZE) {
@@ -71,7 +71,7 @@ void rForceMult2S(
         s_H1QuadToDof[id]  = H1QuadToDof[id];
         s_H1QuadToDofD[id] = H1QuadToDofD[id];
       }
-    }sync;
+    }laghos_raja_sync
 
     for (int el = elBlock; el < (elBlock + ELEMENT_BATCH); ++el) {
       if (el < numElements) {
@@ -100,7 +100,7 @@ void rForceMult2S(
               s_e[ijN(qx,qy,NUM_QUAD_1D)] = r_e;
             }
           }
-        }sync;
+        }laghos_raja_sync
 
         for (int c = 0; c < NUM_DIM; ++c) {
           for (int qx = 0; qx < INNER_SIZE; ++qx/*;inner*/) {
@@ -124,7 +124,7 @@ void rForceMult2S(
                 s_xDy[ijN(dy,qx,H1_DOFS_1D)] = xDy;
               }
             }
-          }sync;
+          }laghos_raja_sync
           for (int dx = 0; dx < INNER_SIZE; ++dx/*;inner*/) {
             if (dx < H1_DOFS_1D) {
               for (int dy = 0; dy < H1_DOFS_1D; ++dy) {
@@ -136,7 +136,7 @@ void rForceMult2S(
                 v[ijklNM(dx,dy,el,c,NUM_DOFS_1D,numElements)] = r_v;
               }
             }
-          }sync;
+          }laghos_raja_sync
         }
       }
     }
@@ -153,7 +153,7 @@ template<const int NUM_DIM,
          const int NUM_DOFS_1D,
          const int NUM_QUAD_1D,
          const int L2_DOFS_1D,
-         const int H1_DOFS_1D> kernel
+         const int H1_DOFS_1D> laghos_raja_kernel
 #endif
 void rForceMultTranspose2S(
 #ifndef __TEMPLATES__
@@ -186,13 +186,13 @@ void rForceMultTranspose2S(
   if (elBlock < numElements)
 #endif
   {
-    share double s_L2QuadToDof[NUM_QUAD_1D * L2_DOFS_1D];
-    share double s_H1DofToQuad[H1_DOFS_1D  * NUM_QUAD_1D];
-    share double s_H1DofToQuadD[H1_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_L2QuadToDof[NUM_QUAD_1D * L2_DOFS_1D];
+    laghos_raja_share double s_H1DofToQuad[H1_DOFS_1D  * NUM_QUAD_1D];
+    laghos_raja_share double s_H1DofToQuadD[H1_DOFS_1D * NUM_QUAD_1D];
 
-    share double s_xy[MAX_DOFS_1D * NUM_QUAD_1D];
-    share double s_xDy[H1_DOFS_1D * NUM_QUAD_1D];
-    share double s_v[NUM_QUAD_1D  * NUM_QUAD_1D];
+    laghos_raja_share double s_xy[MAX_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_xDy[H1_DOFS_1D * NUM_QUAD_1D];
+    laghos_raja_share double s_v[NUM_QUAD_1D  * NUM_QUAD_1D];
 
     for (int idBlock = 0; idBlock < INNER_SIZE; ++idBlock/*; inner*/) {
       for (int id = idBlock; id < (L2_DOFS_1D * NUM_QUAD_1D); id += INNER_SIZE) {
@@ -202,7 +202,7 @@ void rForceMultTranspose2S(
         s_H1DofToQuad[id]  = H1DofToQuad[id];
         s_H1DofToQuadD[id] = H1DofToQuadD[id];
       }
-    }sync;
+    }laghos_raja_sync
 
     for (int el = elBlock; el < (elBlock + ELEMENT_BATCH); ++el) {
       if (el < numElements) {
@@ -210,7 +210,7 @@ void rForceMultTranspose2S(
           for (int q = qBlock; q < NUM_QUAD; ++q) {
             s_v[q] = 0;
           }
-        }sync;
+        }laghos_raja_sync
         for (int c = 0; c < NUM_DIM; ++c) {
           for (int dx = 0; dx < INNER_SIZE; ++dx/*; inner*/) {
             if (dx < H1_DOFS_1D) {
@@ -230,7 +230,7 @@ void rForceMultTranspose2S(
                 s_xDy[ijN(qy,dx,NUM_QUAD_1D)] = xDy;
               }
             }
-          }sync;
+          }laghos_raja_sync
           for (int qx = 0; qx < INNER_SIZE; ++qx/*; inner*/) {
             if (qx < NUM_QUAD_1D) {
               for (int qy = 0; qy < NUM_QUAD_1D; ++qy) {
@@ -244,7 +244,7 @@ void rForceMultTranspose2S(
                                                 (xDy * stressJinvT[ijklmNM(1,c,qx,qy,el,NUM_DIM,NUM_QUAD_1D)]));
               }
             }
-          }sync;
+          }laghos_raja_sync
         }
         for (int qx = 0; qx < INNER_SIZE; ++qx/*; inner*/) {
           if (qx < NUM_QUAD_1D) {
@@ -260,7 +260,7 @@ void rForceMultTranspose2S(
               s_xy[ijN(qx,dy,NUM_QUAD_1D)] = xy;
             }
           }
-        }sync;
+        }laghos_raja_sync
         for (int dy = 0; dy < INNER_SIZE; ++dy/*; inner*/) {
           if (dy < L2_DOFS_1D) {
             for (int dx = 0; dx < L2_DOFS_1D; ++dx) {
@@ -271,7 +271,7 @@ void rForceMultTranspose2S(
               e[ijkN(dx,dy,el,L2_DOFS_1D)] = r_e;
             }
           }
-        }sync;
+        }laghos_raja_sync
       }
     }
   }

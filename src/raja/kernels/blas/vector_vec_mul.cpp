@@ -17,7 +17,7 @@
 
 // *****************************************************************************
 #ifndef __LAMBDA__
-extern "C" kernel
+extern "C" laghos_raja_kernel
 void vector_vec_mul0(const int N,
                      double* __restrict v0,
                      const double d) {
