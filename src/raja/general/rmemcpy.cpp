@@ -39,6 +39,7 @@ namespace mfem {
         auto host_strat = rm.getAllocator("HOST").getAllocationStrategy();
         auto device_strat = rm.getAllocator("DEVICE").getAllocationStrategy();
         auto op = op_registry.find("COPY",host_strat,device_strat);
+
         op->transform((void*)src,(void*)dest, nullptr, nullptr,bytes);
         //checkCudaErrors(cuMemcpyHtoD((CUdeviceptr)dest,src,bytes));
     }  

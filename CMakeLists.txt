@@ -64,6 +64,8 @@ set(RAJA_DATA_ALIGN 64)
 set(RAJA_COHERENCE_BLOCK_SIZE 64)
 
 add_definitions(-D__LAMBDA__=1 -D__TEMPLATES__=1 -D__RAJA__=1)
+#add_definitions(-D__LAMBDA__=1 -D__RAJA__=1)
+#add_definitions(-D__RAJA__=1)
 #add_definitions(-D__RAJA__=1)
 
 add_subdirectory(tpl/RAJA)
@@ -112,9 +114,11 @@ MESSAGE( STATUS "MFEM_INCLUDE_DIRS2:         " ${CMAKE_BINARY_DIR}/MFEM/config )
 include_directories(${HYPRE_INCLUDE_DIRS})
 include_directories(${METIS_INCLUDE_DIRS})
 
-link_directories(${CMAKE_BINARY_DIR}/lib)
-add_subdirectory(tpl/rajitify)
-include_directories(${RAJITIFY_INCLUDES})
+# DEBUG: commenting out for push
+#link_directories(${CMAKE_BINARY_DIR}/lib)
+#add_subdirectory(tpl/rajitify)
+#include_directories(${RAJITIFY_INCLUDES})
+
 #
 # Setup variables to pass to Perf suite
 #
@@ -147,7 +151,7 @@ set(LAGHOS_BUILD_SYSTYPE $ENV{SYS_TYPE})
 set(LAGHOS_BUILD_HOST $ENV{HOSTNAME})
 
 if (ENABLE_CUDA)
-  set(CUDA_SEPARABLE_COMPILATION On)
+  #set(CUDA_SEPARABLE_COMPILATION On)
   find_package(CUDA REQUIRED)
   find_library(NVTX_LIBRARY
     NAME libnvToolsExt.so

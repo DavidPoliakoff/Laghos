@@ -57,7 +57,9 @@ set(LAGHOS_EXECUTABLE_DEPENDS
 
 MESSAGE("Cling Libs are: ${CLING_LIBS}")  
 
-list(APPEND LAGHOS_EXECUTABLE_DEPENDS ${LAGHOS_DEPENDS} rover-utils ${CLING_LIBS}) 
+# DEBUG: removing before push
+list(APPEND LAGHOS_EXECUTABLE_DEPENDS ${LAGHOS_DEPENDS}) 
+#list(APPEND LAGHOS_EXECUTABLE_DEPENDS ${LAGHOS_DEPENDS} rover-utils ${CLING_LIBS}) 
 
 #add_executable(laghos.exe
 #  laghos.cpp

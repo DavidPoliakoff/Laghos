@@ -18,6 +18,7 @@
 #ifndef JIT_GUARD
 // *****************************************************************************
 #include <math.h>
+#include <cub/device/device_reduce.cuh>
 #include <stdarg.h>
 #include <assert.h>
 #include <stdio.h>

@@ -16,6 +16,7 @@
 #ifndef LAGHOS_RAJA_MALLOC
 #define LAGHOS_RAJA_MALLOC
 
+#include <cuda.h>
 #include "umpire/config.hpp"
 #include "umpire/ResourceManager.hpp"
 #include "umpire/Allocator.hpp"
@@ -29,6 +30,7 @@
 
 namespace mfem {
 
+
   // ***************************************************************************
   template<class T> struct rmalloc: public rmemcpy {
 
@@ -40,7 +42,6 @@ namespace mfem {
       umpire::Allocator device_allocator = rm.getAllocator("DEVICE");
 
       if (!rconfig::Get().Cuda()) return ::new T[n];
-#ifdef __NVCC__
       void *ptr;
       push(new,Purple);
       if (!rconfig::Get().Uvm()){
@@ -52,12 +53,10 @@ namespace mfem {
       }
       pop();
       return ptr;
-#else
       // We come here when the user requests a manager,
       // but has compiled the code without NVCC
       assert(false);
       return ::new T[n];
-#endif // __NVCC__
     }
   
     // ***************************************************************************

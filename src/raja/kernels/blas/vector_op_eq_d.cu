@@ -29,5 +29,6 @@ extern "C" __global__ void d_vector_op_eq(const int N,
                                           double* __restrict v0){
   const size_t blockSize = 128;
   const size_t gridSize = (N+blockSize-1)/blockSize;
-  d_vector_op_eq0<<<gridSize,blockSize>>>(N,c0,v0);
+  const int i = blockDim.x * blockIdx.x + threadIdx.x;
+  if (i < N) v0[i] = c0;
 }
